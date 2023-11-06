@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/task_data.dart';
 
@@ -28,3 +29,5 @@ class TaskManager extends ChangeNotifier{
   notifyListeners();
   }
 }
+
+final taskManagerProvider = ChangeNotifierProvider((ref) => TaskManager());

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:taskmanager/screens/empty_task_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:taskmanager/app_state/task_manager.dart';
+import 'package:taskmanager/components/build_task.dart';
+import 'package:taskmanager/screens/tasks_item_screen.dart';
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends ConsumerWidget {
   const TaskScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -13,10 +16,20 @@ class TaskScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
-      body: const EmptyTaskScreen(),
+      body: buildTasksScreen(context),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () {}),
+          onPressed: () {
+            final taskManager = ref.read(taskManagerProvider);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return TasksItemScreen(
+                  onCreate: (task) {
+                    taskManager.addTask(task);
+                    Navigator.pop(context);
+                  },
+                  onUpdate: (task) {});
+            }));
+          }),
     );
   }
 }

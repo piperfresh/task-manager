@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Task Manager',
         theme: ThemeData(
           textTheme:  TextTheme(
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           floatingActionButtonTheme: FloatingActionButtonThemeData(
             backgroundColor: Colors.deepPurple.withOpacity(0.7),
             foregroundColor: Colors.white,
-          )
+          ),
+
         ),
         home: const TaskScreen(),
       ),
