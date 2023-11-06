@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.black,
               )),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+          useMaterial3: false,
           appBarTheme: AppBarTheme.of(context).copyWith(
             backgroundColor: Colors.deepPurple.withOpacity(0.7),
           ),

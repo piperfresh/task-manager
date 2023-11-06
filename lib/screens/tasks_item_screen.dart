@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:taskmanager/app_utils/constant/app_spacing.dart';
 import 'package:taskmanager/models/task_data.dart';
 
@@ -119,7 +120,7 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
             ChoiceChip(
               backgroundColor: Colors.black.withOpacity(0.7),
               label: const Text(
-                'low',
+                'lowest',
                 style: TextStyle(color: Colors.white),
               ),
               selected: _importance == Importance.low,
@@ -164,6 +165,44 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
     );
   }
 
+  Widget buildDate() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Date',
+              style: GoogleFonts.openSans(fontSize: 20),
+            ),
+            TextButton(
+              onPressed: () async {
+                final currentDate = DateTime.now();
+                final selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: currentDate,
+                  firstDate: currentDate,
+                  lastDate: DateTime(currentDate.year + 5),
+                );
+                setState(() {
+                  if (selectedDate != null) {
+                    _dueDate = selectedDate;
+                  }
+                });
+              },
+              child: Text('Select Date'),
+            ),
+          ],
+        ),
+        Text(
+          DateFormat('dd-MM-yyyy').format(_dueDate),
+          style: GoogleFonts.openSans(fontSize: 24),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,6 +221,8 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
             buildSubtitleField(),
             AppSpacer.smallVerticalSpacing,
             buildImportance(),
+            AppSpacer.smallVerticalSpacing,
+            buildDate()
           ],
         ),
       ),
