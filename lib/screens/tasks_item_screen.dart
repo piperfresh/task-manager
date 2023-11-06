@@ -197,8 +197,38 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
         ),
         Text(
           DateFormat('dd-MM-yyyy').format(_dueDate),
-          style: GoogleFonts.openSans(fontSize: 24),
+          style: GoogleFonts.openSans(fontSize: 20),
         ),
+      ],
+    );
+  }
+
+  Widget buildTime() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Time',
+              style: GoogleFonts.openSans(fontSize: 20),
+            ),
+            TextButton(
+                onPressed: () async {
+                  final currentTime = TimeOfDay.now();
+                  final pickedTime = await showTimePicker(
+                      context: context, initialTime: currentTime);
+                  setState(() {
+                    if (pickedTime != null) {
+                      _timeOfDay = pickedTime;
+                    }
+                  });
+                },
+                child: Text('Select Time'))
+          ],
+        ),
+        Text(_timeOfDay.format(context)),
       ],
     );
   }
@@ -222,7 +252,9 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
             AppSpacer.smallVerticalSpacing,
             buildImportance(),
             AppSpacer.smallVerticalSpacing,
-            buildDate()
+            buildDate(),
+            AppSpacer.smallVerticalSpacing,
+            buildTime(),
           ],
         ),
       ),
