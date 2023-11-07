@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:taskmanager/app_utils/constant/app_spacing.dart';
 import 'package:taskmanager/models/task_data.dart';
+import 'package:taskmanager/models/task_tile.dart';
 
-class TasksItemScreen extends StatefulWidget {
+class TasksItemScreen extends ConsumerStatefulWidget {
   final Function(TaskData) onCreate;
   final Function(TaskData) onUpdate;
   final bool isUpdating;
   final TaskData? originalTask;
-
+  //
   const TasksItemScreen(
       {super.key,
       required this.onCreate,
@@ -18,10 +20,10 @@ class TasksItemScreen extends StatefulWidget {
       : isUpdating = (originalTask != null);
 
   @override
-  State<TasksItemScreen> createState() => _TasksItemScreenState();
+  ConsumerState<TasksItemScreen> createState() => _TasksItemScreenState();
 }
 
-class _TasksItemScreenState extends State<TasksItemScreen> {
+class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
   final _titleController = TextEditingController();
   final _subtitleController = TextEditingController();
   String _title = '';
@@ -40,10 +42,10 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
       _title = originalTask.title;
       _subtitle = originalTask.subTitle;
       _subtitleController.text = originalTask.subTitle;
+      _titleController.text = originalTask.title;
       _dueDate = date;
       _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
       _importance = originalTask.importance;
-      _titleController.text = originalTask.title;
     }
     //? Adds a listener to listen for text field changes. When the text changes, you set the
     //? _title.
@@ -91,7 +93,7 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
         ),
         TextField(
           style: const TextStyle(color: Colors.black),
-          controller: _titleController,
+          controller: _subtitleController,
           decoration: const InputDecoration(
               hintText: 'Get it done',
               enabledBorder: UnderlineInputBorder(
@@ -120,7 +122,7 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
             ChoiceChip(
               backgroundColor: Colors.black.withOpacity(0.7),
               label: const Text(
-                'lowest',
+                'low',
                 style: TextStyle(color: Colors.white),
               ),
               selected: _importance == Importance.low,
@@ -255,6 +257,20 @@ class _TasksItemScreenState extends State<TasksItemScreen> {
             buildDate(),
             AppSpacer.smallVerticalSpacing,
             buildTime(),
+            AppSpacer.smallVerticalSpacing,
+            TaskTile(
+                taskItem: TaskData(
+                    importance: _importance,
+                    dateTime: DateTime(
+                      _dueDate.year,
+                      _dueDate.month,
+                      _dueDate.day,
+                      _timeOfDay.hour,
+                      _timeOfDay.minute,
+                    ),
+                    id: 'Demo',
+                    title: _title,
+                    subTitle: _subtitle))
           ],
         ),
       ),
