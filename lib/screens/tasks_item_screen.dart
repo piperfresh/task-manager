@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:taskmanager/app_state/task_manager.dart';
 import 'package:taskmanager/app_utils/constant/app_spacing.dart';
 import 'package:taskmanager/models/task_data.dart';
 import 'package:taskmanager/models/task_tile.dart';
+import 'package:uuid/uuid.dart';
 
 import '../app_state/task_state.dart';
 
 class TasksItemScreen extends ConsumerStatefulWidget {
   final Function(TaskData) onCreate;
   final Function(TaskData) onUpdate;
-   bool? isUpdating;
+  bool isUpdating;
   final int index;
   final TaskData? originalTask;
 
   //
-   TasksItemScreen(
+  TasksItemScreen(
       {super.key,
       required this.onCreate,
       required this.onUpdate,
@@ -275,7 +275,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
             buildTime(),
             AppSpacer.smallVerticalSpacing,
             TaskTile(
-                taskItem: TaskData(
+              taskItem: TaskData(
                   importance: _importance,
                   dateTime: DateTime(
                     _dueDate.year,
@@ -287,9 +287,31 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
                   id: 'Demo',
                   title: _title,
                   subTitle: _subtitle,
-                  isCompleted: update.state.isCompleted
-                ),
+                  isCompleted: update.state.isCompleted),
             ),
+            AppSpacer.smallVerticalSpacing,
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  final taskItem = TaskData(
+                      importance: _importance,
+                      dateTime: DateTime(_dueDate.year, _dueDate.month,
+                          _dueDate.day, _dueDate.hour, _dueDate.minute),
+                      id: widget.originalTask?.id ?? const Uuid().v1(),
+                      title: _title,
+                      subTitle: _subtitle);
+                  if (widget.isUpdating) {
+                    widget.onUpdate(taskItem);
+                  } else {
+                    widget.onCreate(taskItem);
+                  }
+                },
+                child: Text(
+                  'Add Task',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+            )
           ],
         ),
       ),

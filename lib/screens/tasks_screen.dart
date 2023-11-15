@@ -20,7 +20,7 @@ class TaskScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            final taskManager = ref.read(taskManagerProvider);
+            final taskManager = ref.read(taskManagerProvider.notifier);
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return TasksItemScreen(
                   onCreate: (task) {

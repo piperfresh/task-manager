@@ -17,7 +17,7 @@ class TaskDataNotifier extends StateNotifier<TaskData> {
 
   void toggleCompleted() {
     state = state.copyWith(isCompleted: !state.isCompleted);
-    print(state.isCompleted);
+    print('Current State: ${state.isCompleted}');
   }
 }
 

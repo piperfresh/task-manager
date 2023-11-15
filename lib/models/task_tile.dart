@@ -206,8 +206,8 @@ class _TaskTileState extends ConsumerState<TaskTile> {
             value: update.isCompleted,
             onChanged: (value) {
               ref.read(taskDataProvider.notifier).toggleCompleted();
+              print('WHO LA LA: ${update.isCompleted}');
 
-              print('What am i: ${widget.taskItem.isCompleted}');
             },
           ),
         ],
