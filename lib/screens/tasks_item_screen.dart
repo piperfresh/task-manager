@@ -55,7 +55,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
       _importance = originalTask.importance;
     }
     //? Adds a listener to listen for text field changes. When the text changes, you set the
-    //? _title.
+    //? _title and subtitle.
     _titleController.addListener(() {
       setState(() {
         _title = _titleController.text;

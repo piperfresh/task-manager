@@ -118,34 +118,17 @@ import 'package:taskmanager/models/task_data.dart';
 
 class TaskTile extends ConsumerStatefulWidget {
   final TaskData taskItem;
-  final Function(bool?)? onComplete;
-  WidgetRef? ref;
 
-
-   TaskTile({
+  const TaskTile({
     super.key,
     required this.taskItem,
-    this.onComplete,
   });
-
 
   @override
   ConsumerState<TaskTile> createState() => _TaskTileState();
 }
 
 class _TaskTileState extends ConsumerState<TaskTile> {
-
-
-
-
-
-  // Widget buildCheckBox() {
-  //   return Checkbox(
-  //     value: widget.taskItem.isCompleted,
-  //     onChanged: widget.onComplete,
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final update = ref.watch(taskDataProvider);
