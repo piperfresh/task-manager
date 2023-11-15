@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:taskmanager/app_state/task_manager.dart';
 import 'package:taskmanager/app_utils/constant/app_spacing.dart';
 import 'package:taskmanager/models/task_data.dart';
 import 'package:taskmanager/models/task_tile.dart';
 
+import '../app_state/task_state.dart';
+
 class TasksItemScreen extends ConsumerStatefulWidget {
   final Function(TaskData) onCreate;
   final Function(TaskData) onUpdate;
-  final bool isUpdating;
+   bool? isUpdating;
+  final int index;
   final TaskData? originalTask;
+
   //
-  const TasksItemScreen(
+   TasksItemScreen(
       {super.key,
       required this.onCreate,
       required this.onUpdate,
+      this.index = -1,
       this.originalTask})
       : isUpdating = (originalTask != null);
 
@@ -31,6 +37,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
   DateTime _dueDate = DateTime.now();
   Importance _importance = Importance.low;
   TimeOfDay _timeOfDay = TimeOfDay.now();
+
 
   //? When the originalTask is not null, the user is editing an existing item. In this
   //? case, you must configure the widget to show the item’s values.
@@ -56,6 +63,14 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
       });
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // TODO: implement dispose
+    _titleController.dispose();
+    _subtitleController.dispose();
   }
 
   Widget buildTitleField() {
@@ -193,7 +208,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
                   }
                 });
               },
-              child: Text('Select Date'),
+              child: const Text('Select Date'),
             ),
           ],
         ),
@@ -227,7 +242,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
                     }
                   });
                 },
-                child: Text('Select Time'))
+                child: const Text('Select Time'))
           ],
         ),
         Text(_timeOfDay.format(context)),
@@ -237,6 +252,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final update = ref.watch(taskDataProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -260,17 +276,20 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
             AppSpacer.smallVerticalSpacing,
             TaskTile(
                 taskItem: TaskData(
-                    importance: _importance,
-                    dateTime: DateTime(
-                      _dueDate.year,
-                      _dueDate.month,
-                      _dueDate.day,
-                      _timeOfDay.hour,
-                      _timeOfDay.minute,
-                    ),
-                    id: 'Demo',
-                    title: _title,
-                    subTitle: _subtitle))
+                  importance: _importance,
+                  dateTime: DateTime(
+                    _dueDate.year,
+                    _dueDate.month,
+                    _dueDate.day,
+                    _timeOfDay.hour,
+                    _timeOfDay.minute,
+                  ),
+                  id: 'Demo',
+                  title: _title,
+                  subTitle: _subtitle,
+                  isCompleted: update.state.isCompleted
+                ),
+            ),
           ],
         ),
       ),

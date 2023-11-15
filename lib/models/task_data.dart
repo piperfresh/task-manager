@@ -8,7 +8,7 @@ class TaskData {
   final String id;
   final String title;
   final String subTitle;
-  final bool isCompleted;
+   bool isCompleted;
   final Importance importance;
   final DateTime dateTime;
 
@@ -37,5 +37,6 @@ class TaskData {
       dateTime: dateTime ?? this.dateTime,
     );
   }
+
 }
 

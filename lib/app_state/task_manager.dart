@@ -28,6 +28,10 @@ class TaskManager extends ChangeNotifier{
   _tasksList[index] = taskData.copyWith(isCompleted: isChanged);
   notifyListeners();
   }
+
+  void toggleDone(bool isDone){
+    isDone = !isDone;
+  }
 }
 
 final taskManagerProvider = ChangeNotifierProvider((ref) => TaskManager());
