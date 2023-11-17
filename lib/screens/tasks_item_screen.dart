@@ -310,7 +310,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
                   } else {
                     widget.onCreate(taskItem);
                   }
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
                 },
                 child: Text(
                   'Add Task',
