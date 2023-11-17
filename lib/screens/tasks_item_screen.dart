@@ -124,6 +124,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
     );
   }
 
+
   Widget buildImportance() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,7 +301,6 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
                       dateTime: DateTime(_dueDate.year, _dueDate.month,
                           _dueDate.day, _dueDate.hour, _dueDate.minute),
                       id: widget.originalTask?.id ?? const Uuid().v1(),
-                      // id: const Uuid().v1(),
                       title: _title,
                       subTitle: _subtitle,
                   );

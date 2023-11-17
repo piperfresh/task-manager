@@ -21,21 +21,40 @@ class TaskListScreen extends StatelessWidget {
             print('3rd id : ${task.id}');
             print('This is key: ${Key(task.id)}');
             print(task);
-            return InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return TasksItemScreen(
-                    originalTask: task,
-                      onCreate: (item) {},
-                      onUpdate: (item) {
-                        taskManager.updateTask(index, item);
-                        Navigator.pop(context);
-                      });
-                }));
+            return Dismissible(
+              key: UniqueKey(),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                child: const Icon(
+                  Icons.delete_forever,
+                  color: Colors.white,
+                  size: 50,
+                ),
+              ),
+              onDismissed: (direction){
+                taskManager.removeTask(index);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('${task.title} dismissed'))
+                );
               },
-              child: TaskTile(
-                taskItem: task,
-                key: Key(task.id),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return TasksItemScreen(
+                        originalTask: task,
+                        onCreate: (item) {},
+                        onUpdate: (item) {
+                          taskManager.updateTask(index, item);
+                          Navigator.pop(context);
+                        });
+                  }));
+                },
+                child: TaskTile(
+                  taskItem: task,
+                  key: Key(task.id),
+                ),
               ),
             );
           },

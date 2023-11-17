@@ -29,9 +29,6 @@ class TaskManager extends ChangeNotifier{
   notifyListeners();
   }
 
-  void toggleDone(bool isDone){
-    isDone = !isDone;
-  }
 }
 
 final taskManagerProvider = ChangeNotifierProvider((ref) => TaskManager());
