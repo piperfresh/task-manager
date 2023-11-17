@@ -35,3 +35,5 @@ class TaskManager extends ChangeNotifier{
 }
 
 final taskManagerProvider = ChangeNotifierProvider((ref) => TaskManager());
+
+

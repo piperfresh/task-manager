@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/task_data.dart';
 
 class TaskDataNotifier extends StateNotifier<TaskData> {
+
   TaskDataNotifier()
       : super(TaskData(
             importance: Importance.low,
@@ -21,5 +22,5 @@ class TaskDataNotifier extends StateNotifier<TaskData> {
   }
 }
 
-final taskDataProvider = StateNotifierProvider<TaskDataNotifier, TaskData>(
-    (ref) => TaskDataNotifier());
+
+

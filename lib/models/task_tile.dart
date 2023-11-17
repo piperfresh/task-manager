@@ -129,6 +129,9 @@ class TaskTile extends ConsumerStatefulWidget {
 }
 
 class _TaskTileState extends ConsumerState<TaskTile> {
+  final taskDataProvider =
+  StateNotifierProvider<TaskDataNotifier, TaskData>(
+          (ref) => TaskDataNotifier());
   @override
   Widget build(BuildContext context) {
     final update = ref.watch(taskDataProvider);
@@ -206,8 +209,6 @@ class _TaskTileState extends ConsumerState<TaskTile> {
             value: update.isCompleted,
             onChanged: (value) {
               ref.read(taskDataProvider.notifier).toggleCompleted();
-              print('WHO LA LA: ${update.isCompleted}');
-
             },
           ),
         ],

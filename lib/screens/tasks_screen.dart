@@ -20,11 +20,13 @@ class TaskScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            final taskManager = ref.read(taskManagerProvider.notifier);
+            final taskManager = ref.read(taskManagerProvider);
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return TasksItemScreen(
                   onCreate: (task) {
+                    print('CheckBox: ${task.isCompleted}');
                     taskManager.addTask(task);
+                    print('2nd id : ${task.id}');
                     Navigator.pop(context);
                   },
                   onUpdate: (task) {});

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:taskmanager/app_state/task_manager.dart';
 import 'package:taskmanager/app_utils/constant/app_spacing.dart';
 import 'package:taskmanager/models/task_data.dart';
 import 'package:taskmanager/models/task_tile.dart';
@@ -252,7 +253,7 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final update = ref.watch(taskDataProvider.notifier);
+    // final update = ref.watch(taskDataProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -284,27 +285,32 @@ class _TasksItemScreenState extends ConsumerState<TasksItemScreen> {
                     _timeOfDay.hour,
                     _timeOfDay.minute,
                   ),
-                  id: 'Demo',
+                  id: 'Preview Mode',
                   title: _title,
                   subTitle: _subtitle,
-                  isCompleted: update.state.isCompleted),
+                  isCompleted: widget.originalTask?.isCompleted ?? false),
             ),
             AppSpacer.smallVerticalSpacing,
             Center(
               child: ElevatedButton(
                 onPressed: () {
+
                   final taskItem = TaskData(
                       importance: _importance,
                       dateTime: DateTime(_dueDate.year, _dueDate.month,
                           _dueDate.day, _dueDate.hour, _dueDate.minute),
                       id: widget.originalTask?.id ?? const Uuid().v1(),
+                      // id: const Uuid().v1(),
                       title: _title,
-                      subTitle: _subtitle);
+                      subTitle: _subtitle,
+                  );
+                  print('id : ${taskItem.id}');
                   if (widget.isUpdating) {
                     widget.onUpdate(taskItem);
                   } else {
                     widget.onCreate(taskItem);
                   }
+                  Navigator.pop(context);
                 },
                 child: Text(
                   'Add Task',
